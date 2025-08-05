@@ -1,0 +1,128 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red245\green245\blue245;\red0\green0\blue0;
+\red131\green0\blue165;\red144\green1\blue18;\red15\green112\blue1;\red86\green65\blue25;\red19\green85\blue52;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c100000;\cssrgb\c96863\c96863\c96863;\cssrgb\c0\c0\c0;
+\cssrgb\c59216\c13725\c70588;\cssrgb\c63922\c8235\c8235;\cssrgb\c0\c50196\c0;\cssrgb\c41569\c32157\c12941;\cssrgb\c6667\c40000\c26667;
+}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+%matplotlib \cf0 inline\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 import\cf0  matplotlib.pyplot \cf5 as\cf0  plt\cb1 \
+\cf5 \cb3 import\cf0  pandas \cf5 as\cf0  pd\cb1 \
+\cf5 \cb3 import\cf0  numpy \cf5 as\cf0  np\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 sperm = pd.read_csv(\cf6 "NewData.csv"\cf0 ) \cf7 #Sperm  dataset\cf0 \cb1 \
+\cb3 sperm.head()\cb1 \
+\cb3 sperm=sperm.dropna()\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (sperm.shape)\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 sperm.head()\cb1 \
+\
+\cb3 features,labels=sperm.loc[:,[\cf6 'Age'\cf0 ,\cf6 'Year'\cf0 ,\cf6 'Volume'\cf0 ,\cf6 'Concentration'\cf0 ]],sperm.loc[:,[\cf6 'MorphologyCount'\cf0 ,\cf6 'MotilityCount'\cf0 ,\cf6 'FPCount'\cf0 ,\cf6 'pH'\cf0 ]]\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (features.head())\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 labels.head()\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.model_selection \cf5 import\cf0  KFold\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 kfold=KFold(n_splits=\cf9 10\cf0 , random_state=\cf9 42\cf0 , shuffle=\cf2 True\cf0 )\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.ensemble \cf5 import\cf0  RandomForestRegressor\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 regressor = RandomForestRegressor(n_estimators=\cf9 100\cf0 , random_state=\cf9 42\cf0 )\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.model_selection \cf5 import\cf0  cross_val_score\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 scores = cross_val_score(estimator=regressor, X=features, y=labels, cv=kfold, n_jobs=\cf9 4\cf0 )\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (scores)\cb1 \
+\
+\cf8 \cb3 print\cf0 (scores.mean())\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.linear_model \cf5 import\cf0  LinearRegression\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf7 \cb3 #reg = LinearRegression().fit(X_train, y_train)\cf0 \cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 reg = LinearRegression()\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.model_selection \cf5 import\cf0  cross_val_score\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 scores = cross_val_score(estimator=reg, X=features, y=labels, cv=kfold, n_jobs=\cf9 4\cf0 )\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (scores)\cb1 \
+\
+\cf8 \cb3 print\cf0 (scores.mean())\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.multioutput \cf5 import\cf0  MultiOutputRegressor\cb1 \
+\cf5 \cb3 from\cf0  sklearn.svm \cf5 import\cf0  SVR\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 svr = SVR(kernel=\cf6 'rbf'\cf0 ,epsilon=\cf9 0.2\cf0 )\cb1 \
+\cb3 mor = MultiOutputRegressor(svr)\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.model_selection \cf5 import\cf0  cross_val_score\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 scores = cross_val_score(estimator=mor, X=features, y=labels, cv=kfold, n_jobs=\cf9 4\cf0 )\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (scores)\cb1 \
+\
+\cf8 \cb3 print\cf0 (scores.mean())\cb1 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 from\cf0  sklearn.model_selection \cf5 import\cf0  train_test_split\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 X_train, X_test, y_train, y_test = train_test_split(features, labels, shuffle=\cf2 True\cf0 , test_size=\cf9 .2\cf0 , random_state=\cf9 42\cf0 )\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (X_train.shape)\cb1 \
+\cf8 \cb3 print\cf0 (X_test.shape)\cb1 \
+\cf8 \cb3 print\cf0 (y_train.shape)\cb1 \
+\cf8 \cb3 print\cf0 (y_test.shape)\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 y_test.head()\cb1 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (X_train.shape)\cb1 \
+\cf8 \cb3 print\cf0 (X_test.shape)\cb1 \
+\cf8 \cb3 print\cf0 (y_train.shape)\cb1 \
+\cf8 \cb3 print\cf0 (y_test.shape)\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 regressor.fit(X_train,y_train)\cb1 \
+\
+\cb3 Y_pred=regressor.predict(X_test)\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (y_test.iloc[:,\cf9 0\cf0 ])\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 plt.scatter(Y_pred[:,\cf9 1\cf0 ],\cb1 \
+\cb3                y_test.iloc[:,\cf9 1\cf0 ],\cb1 \
+\cb3                color=\cf6 "g"\cf0 )\cb1 \
+\cb3 plt.xlabel(\cf6 'Predicted'\cf0 )\cb1 \
+\cb3 plt.ylabel(\cf6 'Actual'\cf0 )\cb1 \
+\cb3 plt.title(\cf6 'Motility'\cf0 )\cb1 \
+\cb3 p1 = \cf8 max\cf0 (\cf8 max\cf0 (Y_pred[:,\cf9 1\cf0 ]), \cf8 max\cf0 (y_test.iloc[:,\cf9 1\cf0 ]))\cb1 \
+\cb3 p2 = \cf8 min\cf0 (\cf8 min\cf0 (Y_pred[:,\cf9 1\cf0 ]), \cf8 min\cf0 (y_test.iloc[:,\cf9 1\cf0 ]))\cb1 \
+\cb3 plt.plot([p1, p2], [p1, p2], \cf6 'b-'\cf0 )\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb3 print\cf0 (\cf8 min\cf0 (Y_pred[:,\cf9 0\cf0 ]))\cb1 \
+\
+}
